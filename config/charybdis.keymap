@@ -251,7 +251,7 @@
 &gresc     &trans   &trans    &trans     &trans       &kp N7  &kp N8  &kp N9  &kp LBRC   &kp RBRC
 &hml LSHIFT EXCL  &hml LALT AT  &hml LCTRL HASH  &hml LGUI DLLR  &kp PRCNT    &kp N4  &hmr RGUI N5  &hmr RCTRL N6  &hmr RALT LBKT  &hmr RSHIFT RBKT
 &kp CARET  &kp AMPS &kp ASTRK &kp LPAR   &kp RPAR     &kp N1  &kp N2  &kp N3  &kp MINUS  &kp EQUAL
-                           &trans   &trans     &kp N0  &kp SQT
+                           &trans   &trans     &kp N0  &trans
             >;
         };
 
