@@ -1,0 +1,22 @@
+pressed: usage_page 0x07 keycode 0x21 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0x21 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0x04 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0x04 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0x2C implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0x2C implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0xE5 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_register_mod: Modifiers set to 0x20
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x20
+pressed: usage_page 0x07 keycode 0x1B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x20
+released: usage_page 0x07 keycode 0x1B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x20
+released: usage_page 0x07 keycode 0xE5 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_unregister_mod: Modifiers set to 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00

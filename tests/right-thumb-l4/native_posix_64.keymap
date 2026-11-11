@@ -1,0 +1,38 @@
+// Right-thumb combo (Space+Enter) to layer 4, and its require-prior-idle guard.
+// Mock positions: row 0 = A, X; row 1 = Space (&lt 1), Enter (&mt RSHIFT).
+// The real combo uses positions 32 33; the override below maps them to 2 3.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+#include "real/&lt.dtsi"
+
+/ {
+    combos {
+        compatible = "zmk,combos";
+#include "real/right_thumbs_layer.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&kp A &kp X &lt 1 SPACE &mt RSHIFT ENTER>; };
+        l1 { bindings = <&trans &kp N1 &trans &trans>; };
+        l2 { bindings = <&trans &trans &trans &trans>; };
+        l3 { bindings = <&trans &trans &trans &trans>; };
+        l4 { bindings = <&trans &kp N4 &trans &trans>; };
+    };
+};
+
+&right_thumbs_layer { key-positions = <2 3>; };
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: idle, both right thumbs, tap X -> 4 (layer 4) */
+        ZMK_MOCK_PRESS(1,0,10) ZMK_MOCK_PRESS(1,1,60) ZMK_MOCK_PRESS(0,1,20) ZMK_MOCK_RELEASE(0,1,20)
+        ZMK_MOCK_RELEASE(1,0,5) ZMK_MOCK_RELEASE(1,1,400)
+        /* 2: tap A, Space 30 ms later, Shift 10 ms after, X -> a, space, Shift+X (no layer 4) */
+        ZMK_MOCK_PRESS(0,0,20) ZMK_MOCK_RELEASE(0,0,30) ZMK_MOCK_PRESS(1,0,10) ZMK_MOCK_PRESS(1,1,40)
+        ZMK_MOCK_RELEASE(1,0,40) ZMK_MOCK_PRESS(0,1,20) ZMK_MOCK_RELEASE(0,1,20) ZMK_MOCK_RELEASE(1,1,300)
+    >;
+};

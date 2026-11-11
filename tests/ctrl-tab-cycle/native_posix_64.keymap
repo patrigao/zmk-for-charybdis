@@ -1,0 +1,59 @@
+// Q+W / Q+W+E / Q+W+E+R combos and the Ctrl hold on layer 2.
+// Mock positions: row 0 = Q W E R (0-3, same as the real board),
+// row 1 = Del (lt_ctrl to layer 2), A. Layer 2 is the real layer index.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+#include "real/alt_esc.dtsi"
+#include "real/lt_ctrl.dtsi"
+#include "real/mo_release_ctrl.dtsi"
+#include "real/ctrl_then_tap.dtsi"
+#include "real/ctrl_tab.dtsi"
+#include "real/ctrl_shift_tab.dtsi"
+    };
+
+    combos {
+        compatible = "zmk,combos";
+#include "real/tab_combo.dtsi"
+#include "real/ctrl_tab_combo.dtsi"
+#include "real/ctrl_shift_tab_combo.dtsi"
+#include "real/alt_esc_combo.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&kp Q &kp W &kp E &kp R  &lt_ctrl 2 DEL &kp A &none &none>; };
+        l1 { bindings = <&trans &trans &trans &trans  &trans &trans &none &none>; };
+        l2 { bindings = <&kp N1 &kp N2 &kp N3 &trans  &trans &kp N4 &none &none>; };
+    };
+};
+
+#define QW   ZMK_MOCK_PRESS(0,0,5) ZMK_MOCK_PRESS(0,1,80) ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,200)
+#define QWE  ZMK_MOCK_PRESS(0,0,5) ZMK_MOCK_PRESS(0,1,5) ZMK_MOCK_PRESS(0,2,80) \
+             ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,5) ZMK_MOCK_RELEASE(0,2,200)
+#define QWER ZMK_MOCK_PRESS(0,0,5) ZMK_MOCK_PRESS(0,1,5) ZMK_MOCK_PRESS(0,2,5) ZMK_MOCK_PRESS(0,3,80) \
+             ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,5) ZMK_MOCK_RELEASE(0,2,5) ZMK_MOCK_RELEASE(0,3,200)
+#define DEL_DOWN ZMK_MOCK_PRESS(1,0,300)
+#define DEL_UP   ZMK_MOCK_RELEASE(1,0,300)
+
+&kscan {
+    columns = <4>;
+    events = <
+        /* 1: hold Del alone, tap A -> 4, no Ctrl; the Ctrl release on Del up is a no-op */
+        DEL_DOWN ZMK_MOCK_PRESS(1,1,20) ZMK_MOCK_RELEASE(1,1,20) DEL_UP
+        /* 2: Q+W on layer 0 -> plain Tab */
+        QW
+        /* 3: hold Del, Q+W, Q+W, Q+W+E -> one Ctrl press, Tab, Tab, Shift+Tab, Ctrl up on Del up */
+        DEL_DOWN QW QW QWE DEL_UP
+        /* 4: hold Del, Q+W+E+R -> Alt+Esc */
+        DEL_DOWN QWER DEL_UP
+        /* 5: hold Del, Q+W then Q+W+E+R -> Ctrl+Tab, then Alt+Esc with Ctrl hidden */
+        DEL_DOWN QW QWER DEL_UP
+        /* 6: quick roll from Del into Q+W (hold decided by other-key-up) -> Ctrl+Tab */
+        ZMK_MOCK_PRESS(1,0,30) ZMK_MOCK_PRESS(0,0,5) ZMK_MOCK_PRESS(0,1,40)
+        ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,100) DEL_UP
+    >;
+};

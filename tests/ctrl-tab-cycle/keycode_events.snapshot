@@ -1,0 +1,70 @@
+pressed: usage_page 0x07 keycode 0x21 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0x21 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+Tried to unregister modifier 0 too often
+released: Unable to release keycode
+pressed: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_register_mod: Modifiers set to 0x01
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+pressed: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x01
+zmk_hid_masked_modifiers_set: Modifiers set to 0x01
+pressed: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x01
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x01
+zmk_hid_masked_modifiers_set: Modifiers set to 0x01
+pressed: usage_page 0x07 keycode 0x2B implicit_mods 0x02 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x03
+released: usage_page 0x07 keycode 0x2B implicit_mods 0x02 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x01
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_unregister_mod: Modifiers set to 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0x29 implicit_mods 0x04 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x04
+released: usage_page 0x07 keycode 0x29 implicit_mods 0x04 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x00
+released: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+Tried to unregister modifier 0 too often
+released: Unable to release keycode
+pressed: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_register_mod: Modifiers set to 0x01
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+pressed: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x01
+zmk_hid_masked_modifiers_set: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0x29 implicit_mods 0x04 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x04
+released: usage_page 0x07 keycode 0x29 implicit_mods 0x04 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_unregister_mod: Modifiers set to 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
+pressed: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_register_mod: Modifiers set to 0x01
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+zmk_hid_masked_modifiers_clear: Modifiers set to 0x01
+pressed: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_press: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0x2B implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x01
+released: usage_page 0x07 keycode 0xE0 implicit_mods 0x00 explicit_mods 0x00
+zmk_hid_unregister_mod: Modifiers set to 0x00
+zmk_hid_implicit_modifiers_release: Modifiers set to 0x00
