@@ -1,0 +1,49 @@
+// L+' combo for ; on the right home row, with the real hmr hold-tap.
+// Mock positions: row 0 = L (hmr RALT), ' (hmr RSHIFT); row 1 = N, LSHIFT.
+// The real combo uses positions 18 19; the override below maps them to 0 1.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+// hmr's hold-trigger-key-positions uses these.
+#define KEYS_L 2 3
+#define THUMBS
+
+/ {
+    behaviors {
+#include "real/hmr.dtsi"
+    };
+
+    combos {
+        compatible = "zmk,combos";
+#include "real/semicolon_combo.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&hmr RALT L &hmr RSHIFT SQT &kp N &kp LSHIFT>; };
+    };
+};
+
+&semicolon_combo { key-positions = <0 1>; };
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: idle, L then ' 10 ms apart -> ; */
+        ZMK_MOCK_PRESS(0,0,10) ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,300)
+        /* 2: ' then L 10 ms apart (order does not matter) -> ; */
+        ZMK_MOCK_PRESS(0,1,10) ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_RELEASE(0,1,5) ZMK_MOCK_RELEASE(0,0,300)
+        /* 3: "n'l" roll as in "I'll": n, then ' and L 60 ms apart -> n ' l */
+        ZMK_MOCK_PRESS(1,0,20) ZMK_MOCK_RELEASE(1,0,40) ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_PRESS(0,0,20)
+        ZMK_MOCK_RELEASE(0,1,20) ZMK_MOCK_RELEASE(0,0,300)
+        /* 4: Shift held, L+' -> Shift+; (:) */
+        ZMK_MOCK_PRESS(1,1,50) ZMK_MOCK_PRESS(0,0,10) ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_RELEASE(0,0,5)
+        ZMK_MOCK_RELEASE(0,1,50) ZMK_MOCK_RELEASE(1,1,300)
+        /* 5: ' tapped alone after idle -> ' */
+        ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_RELEASE(0,1,300)
+        /* 6: "foo();" style: n, then L+' 40 ms later -> n ; */
+        ZMK_MOCK_PRESS(1,0,20) ZMK_MOCK_RELEASE(1,0,40) ZMK_MOCK_PRESS(0,0,10) ZMK_MOCK_PRESS(0,1,50)
+        ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,300)
+    >;
+};
