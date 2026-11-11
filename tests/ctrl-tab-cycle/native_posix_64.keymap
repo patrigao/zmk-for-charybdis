@@ -18,6 +18,7 @@
     combos {
         compatible = "zmk,combos";
 #include "real/tab_combo.dtsi"
+#include "real/shift_tab_combo.dtsi"
 #include "real/ctrl_tab_combo.dtsi"
 #include "real/ctrl_shift_tab_combo.dtsi"
 #include "real/alt_esc_combo.dtsi"
@@ -55,5 +56,7 @@
         /* 6: quick roll from Del into Q+W (hold decided by other-key-up) -> Ctrl+Tab */
         ZMK_MOCK_PRESS(1,0,30) ZMK_MOCK_PRESS(0,0,5) ZMK_MOCK_PRESS(0,1,40)
         ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,100) DEL_UP
+        /* 7: Q+W+E on layer 0 -> plain Shift+Tab, no Ctrl */
+        QWE
     >;
 };

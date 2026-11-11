@@ -179,6 +179,14 @@
             layers = <0 1 3 4>;
         };
 
+        // Q+W+E together for Shift+Tab, on the same layers as tab_combo.
+        // Q+W now waits up to 50 ms for E before sending Tab.
+        shift_tab_combo: shift_tab_combo {
+            key-positions = <0 1 2>;
+            bindings = <&kp LS(TAB)>;
+            layers = <0 1 3 4>;
+        };
+
         // Hold Del (L2), then Q+W for Ctrl+Tab or Q+W+E for Ctrl+Shift+Tab.
         // Ctrl stays held until Del is released. Q+W waits up to 50 ms for E.
         ctrl_tab_combo: ctrl_tab_combo {
