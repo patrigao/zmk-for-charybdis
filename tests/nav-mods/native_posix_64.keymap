@@ -1,0 +1,45 @@
+// Alt+arrow on L1 with the real hmnav hold-tap, after other keypresses.
+// Mock positions: row 0 = Space (&lt 1), S (L0 hml LALT S, L1 hmnav LALT F7);
+// row 1 = H (L1 Left), X.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+// hml's hold-trigger-key-positions use these.
+#define KEYS_R 2 3
+#define THUMBS 0
+
+#include "real/&lt.dtsi"
+
+/ {
+    behaviors {
+#include "real/hml.dtsi"
+#include "real/hmnav.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&lt 1 SPACE &hml LALT S &kp H &kp X>; };
+        l1 { bindings = <&trans &hmnav LALT F7 &kp LEFT &trans>; };
+    };
+};
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: Space held, S, tap H twice, S up -> Alt+Left, Left */
+        ZMK_MOCK_PRESS(0,0,300) ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_PRESS(1,0,40) ZMK_MOCK_RELEASE(1,0,60)
+        ZMK_MOCK_PRESS(1,0,40) ZMK_MOCK_RELEASE(1,0,60) ZMK_MOCK_RELEASE(0,1,60) ZMK_MOCK_RELEASE(0,0,400)
+        /* 2: Alt+Left twice, re-pressing S 30 ms after the first S up -> Alt+Left, Alt+Left */
+        ZMK_MOCK_PRESS(0,0,300) ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_PRESS(1,0,40) ZMK_MOCK_RELEASE(1,0,30) ZMK_MOCK_RELEASE(0,1,30)
+        ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_PRESS(1,0,40) ZMK_MOCK_RELEASE(1,0,60) ZMK_MOCK_RELEASE(0,1,60) ZMK_MOCK_RELEASE(0,0,400)
+        /* 3: type x, then Space held and S 60 ms after x -> x, Alt+Left */
+        ZMK_MOCK_PRESS(1,1,20) ZMK_MOCK_RELEASE(1,1,20) ZMK_MOCK_PRESS(0,0,20) ZMK_MOCK_PRESS(0,1,40) ZMK_MOCK_PRESS(1,0,40)
+        ZMK_MOCK_RELEASE(1,0,40) ZMK_MOCK_RELEASE(0,1,60) ZMK_MOCK_RELEASE(0,0,400)
+        /* 4: type s, then Space held and S 160 ms after s -> s, Alt+Left */
+        ZMK_MOCK_PRESS(0,1,20) ZMK_MOCK_RELEASE(0,1,40) ZMK_MOCK_PRESS(0,0,100) ZMK_MOCK_PRESS(0,1,40) ZMK_MOCK_PRESS(1,0,40)
+        ZMK_MOCK_RELEASE(1,0,40) ZMK_MOCK_RELEASE(0,1,60) ZMK_MOCK_RELEASE(0,0,400)
+        /* 5: Space held, S tapped alone -> F7 */
+        ZMK_MOCK_PRESS(0,0,300) ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_RELEASE(0,1,60) ZMK_MOCK_RELEASE(0,0,400)
+    >;
+};

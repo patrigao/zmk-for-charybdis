@@ -1,4 +1,4 @@
-// L1/L2 home row mods with the real hmhp (hold-preferred) hold-tap.
+// L2 home row mods with the real hmhp (hold-preferred) hold-tap. F8/F11 are mock keys.
 // Mock positions: row 0 = F8 (hmhp LCTRL), F11 (hmhp LSHIFT); row 1 = Left, X.
 #include <dt-bindings/zmk/keys.h>
 #include <behaviors.dtsi>
