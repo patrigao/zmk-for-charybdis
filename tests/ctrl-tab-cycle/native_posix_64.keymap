@@ -58,5 +58,14 @@
         ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,100) DEL_UP
         /* 7: Q+W+E on layer 0 -> plain Shift+Tab, no Ctrl */
         QWE
+        /* 8: hold Del, Q then W 80 ms later -> Ctrl+Tab (inside the 100 ms window) */
+        DEL_DOWN ZMK_MOCK_PRESS(0,0,80) ZMK_MOCK_PRESS(0,1,40) ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,200) DEL_UP
+        /* 9: hold Del, Q W E R 30 ms apart (90 ms span) -> Alt+Esc */
+        DEL_DOWN ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_PRESS(0,2,30) ZMK_MOCK_PRESS(0,3,80)
+        ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,5) ZMK_MOCK_RELEASE(0,2,5) ZMK_MOCK_RELEASE(0,3,200) DEL_UP
+        /* 10: layer 0, Q then W 80 ms later -> Tab (inside the 100 ms window) */
+        ZMK_MOCK_PRESS(0,0,80) ZMK_MOCK_PRESS(0,1,40) ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,200)
+        /* 11: layer 0, typing "we" with E 60 ms after W -> w e, in order, no combo */
+        ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_PRESS(0,2,30) ZMK_MOCK_RELEASE(0,1,30) ZMK_MOCK_RELEASE(0,2,200)
     >;
 };

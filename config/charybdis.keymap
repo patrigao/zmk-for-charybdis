@@ -89,6 +89,41 @@
             hold-trigger-on-release;
         };
 
+        // Shift on Z and / (layer 0), hold-preferred: Shift engages as soon as the
+        // next key goes down, on either hand, so Shift stacks with other mods in
+        // any order. A 200 ms tapping term instead of 280, and no
+        // hold-trigger-key-positions: Z and / rarely start a typing roll.
+        // require-prior-idle-ms still makes Z or / pressed within 150 ms of the
+        // previous key a plain tap, so mid-word rolls like "ize" stay letters.
+        sft: shift_mod {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Shift Mod (hold-preferred)";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+        };
+
+        // Home row mods on L1 and L2, hold-preferred: the mod engages as soon as
+        // the next key goes down, so Ctrl+arrow or GUI+number fires right away.
+        // No hold-trigger-key-positions: hold-preferred decides on that key-down,
+        // before hold-trigger-on-release records a position, and checking positions
+        // on key-down would block same-hand stacking (F8 Ctrl + F11 Shift).
+        // So one behavior serves both hands. require-prior-idle-ms still makes a
+        // key pressed within 150 ms of the previous key a plain tap.
+        hmhp: home_row_mod_hold_preferred {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Home Row Mod (hold-preferred)";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+        };
+
         // Alt+Esc that hides a held Ctrl, so it stays Alt+Esc after the L2
         // Ctrl+Tab combos.
         alt_esc: alt_esc {
@@ -99,7 +134,7 @@
             mods = <(MOD_LCTL|MOD_RCTL)>;
         };
 
-        // L2 layer-tap for Del and /. Same timing as &lt. Releasing it also
+        // L2 layer-tap for Del. Same timing as &lt. Releasing it also
         // releases the Ctrl that the L2 Ctrl+Tab combos press.
         lt_ctrl: layer_tap_release_ctrl {
             compatible = "zmk,behavior-hold-tap";
@@ -161,44 +196,54 @@
     combos {
         compatible = "zmk,combos";
 
-        // Hold both right thumb keys (Space/L1 and Enter/Shift) together for layer 4
+        // Hold both right thumb keys (Space/L1 and Enter/Shift) together for layer 3
         // (Bluetooth, bootloader). Press them within 50 ms of each other.
         // require-prior-idle-ms: a Space-then-Shift roll while typing never fires it.
         right_thumbs_layer: right_thumbs_layer {
             key-positions = <32 33>;
-            bindings = <&mo 4>;
+            bindings = <&mo 3>;
             require-prior-idle-ms = <150>;
         };
 
         // Q+W together for Tab. No English word contains "qw", so typing never
         // triggers it. No require-prior-idle-ms: Tab right after typing must work.
+        // 100 ms window from the first key (default 50), the same as the L2 chords.
+        // Typing "we" still types normally, but w shows up when you release W,
+        // not after 50 ms.
         // ponytail: lists every layer with bindings except L2; add new layers here.
         tab_combo: tab_combo {
             key-positions = <0 1>;
             bindings = <&kp TAB>;
-            layers = <0 1 3 4>;
+            layers = <0 1 3>;
+            timeout-ms = <100>;
         };
 
         // Q+W+E together for Shift+Tab, on the same layers as tab_combo.
-        // Q+W now waits up to 50 ms for E before sending Tab.
+        // Q+W waits up to 100 ms after the first key for E before sending Tab.
         shift_tab_combo: shift_tab_combo {
             key-positions = <0 1 2>;
             bindings = <&kp LS(TAB)>;
-            layers = <0 1 3 4>;
+            layers = <0 1 3>;
+            timeout-ms = <100>;
         };
 
         // Hold Del (L2), then Q+W for Ctrl+Tab or Q+W+E for Ctrl+Shift+Tab.
-        // Ctrl stays held until Del is released. Q+W waits up to 50 ms for E.
+        // Ctrl stays held until Del is released.
+        // The L2 chords get a 100 ms window from the first key (default 50), so
+        // the keys can land further apart. Releasing the keys fires the chord at
+        // once; only a chord still held waits out the window for more keys.
         ctrl_tab_combo: ctrl_tab_combo {
             key-positions = <0 1>;
             bindings = <&ctrl_tab>;
             layers = <2>;
+            timeout-ms = <100>;
         };
 
         ctrl_shift_tab_combo: ctrl_shift_tab_combo {
             key-positions = <0 1 2>;
             bindings = <&ctrl_shift_tab>;
             layers = <2>;
+            timeout-ms = <100>;
         };
 
         // Hold Del (L2), then Q+W+E+R for Alt+Esc.
@@ -206,6 +251,7 @@
             key-positions = <0 1 2 3>;
             bindings = <&alt_esc>;
             layers = <2>;
+            timeout-ms = <100>;
         };
 
         // L+' together for ; (thumb Shift + L+' for :). The base key is '.
@@ -227,8 +273,8 @@
         layer_0 {
             bindings = <
 &kp Q           &kp W         &kp E           &kp R           &kp T    &kp Y        &kp U           &kp I           &kp O          &kp P
-&hml LSHIFT A   &hml LALT S   &hml LCTRL D    &hml LGUI F     &kp G    &kp H        &hmr RGUI J     &hmr RCTRL K    &hmr RALT L    &hmr RSHIFT SQT
-&kp Z           &kp X         &kp C           &kp V           &kp B    &kp N        &kp M           &kp COMMA       &kp DOT        &lt_ctrl 2 SLASH
+&kp A           &hml LALT S   &hml LCTRL D    &hml LGUI F     &kp G    &kp H        &hmr RGUI J     &hmr RCTRL K    &hmr RALT L    &kp SQT
+&sft LSHIFT Z   &kp X         &kp C           &kp V           &kp B    &kp N        &kp M           &kp COMMA       &kp DOT        &sft RSHIFT SLASH
                                               &lt_ctrl 2 DEL  &mt LGUI BSPC     &lt 1 SPACE  &mt RSHIFT ENTER
             >;
 
@@ -240,8 +286,8 @@
         layer_1 {
             bindings = <
 &kp F1   &kp F2   &kp F3  &kp F4  &kp F5     &trans     &kp C_BRI_DN  &kp C_BRI_UP  &trans      &kp GRAVE
-&hml LSHIFT F6  &hml LALT F7  &hml LCTRL F8  &hml LGUI F9  &kp F10    &kp LEFT   &kp DOWN  &kp UP  &kp RIGHT  &trans
-&kp F11  &kp F12  &trans  &trans  &trans     &kp C_PREV &kp K_VOL_DN  &kp K_VOL_UP  &kp C_NEXT  &kp K_MUTE
+&kp F6          &hmhp LALT F7  &hmhp LCTRL F8  &hmhp LGUI F9  &kp F10    &kp LEFT   &kp DOWN  &kp UP  &kp RIGHT  &trans
+&hmhp LSHIFT F11  &kp F12  &trans  &trans  &trans     &kp C_PREV &kp K_VOL_DN  &kp K_VOL_UP  &kp C_NEXT  &hmhp RSHIFT K_MUTE
                           &trans  &trans     &trans     &kp C_PP
             >;
         };
@@ -249,27 +295,27 @@
         layer_2 {
             bindings = <
 &gresc     &trans   &trans    &trans     &trans       &kp N7  &kp N8  &kp N9  &kp LBRC   &kp RBRC
-&hml LSHIFT EXCL  &hml LALT AT  &hml LCTRL HASH  &hml LGUI DLLR  &kp PRCNT    &kp N4  &hmr RGUI N5  &hmr RCTRL N6  &hmr RALT LBKT  &hmr RSHIFT RBKT
-&kp CARET  &kp AMPS &kp ASTRK &kp LPAR   &kp RPAR     &kp N1  &kp N2  &kp N3  &kp MINUS  &kp EQUAL
+&kp EXCL          &hmhp LALT AT  &hmhp LCTRL HASH  &hmhp LGUI DLLR  &kp PRCNT    &kp N4  &hmhp RGUI N5  &hmhp RCTRL N6  &hmhp RALT LBKT  &kp RBKT
+&hmhp LSHIFT CARET  &kp AMPS &kp ASTRK &kp LPAR   &kp RPAR     &kp N1  &kp N2  &kp N3  &kp MINUS  &hmhp RSHIFT EQUAL
                            &trans   &trans     &kp N0  &trans
             >;
         };
 
         layer_3 {
             bindings = <
-&trans     &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-&hml LSHIFT TAB  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-&trans     &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-                           &trans  &trans    &trans  &trans
+&alt_esc     &trans  &trans  &trans  &trans    &trans         &trans         &trans         &trans  &bootloader
+&trans       &trans  &trans  &trans  &trans    &trans         &trans         &trans         &trans  &trans
+&trans       &trans  &trans  &trans  &trans    &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &trans  &bt BT_CLR
+                        &trans  &trans    &trans         &trans
             >;
         };
 
         layer_4 {
             bindings = <
-&alt_esc     &trans  &trans  &trans  &trans    &trans         &trans         &trans         &trans  &bootloader
-&trans       &trans  &trans  &trans  &trans    &trans         &trans         &trans         &trans  &trans
-&trans       &trans  &trans  &trans  &trans    &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &trans  &bt BT_CLR
-                        &trans  &trans    &trans         &trans
+&trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
+                        &trans  &trans    &trans  &trans
             >;
         };
 
@@ -310,15 +356,6 @@
         };
 
         layer_9 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
-                        &trans  &trans    &trans  &trans
-            >;
-        };
-
-        layer_10 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans
 &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans

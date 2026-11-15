@@ -1,0 +1,35 @@
+// Shift on Z and /, with the real sft (hold-preferred) hold-tap.
+// Mock positions: row 0 = Z (sft LSHIFT), E; row 1 = O, / (sft RSHIFT).
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+#include "real/sft.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&sft LSHIFT Z &kp E &kp O &sft RSHIFT SLASH>; };
+    };
+};
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: idle, Z held, tap O -> Shift+O */
+        ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_PRESS(1,0,20) ZMK_MOCK_RELEASE(1,0,20) ZMK_MOCK_RELEASE(0,0,300)
+        /* 2: idle, Z rolled into E (Z up first) -> Shift+E (balanced would type z e) */
+        ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_RELEASE(0,1,300)
+        /* 3: Z held alone 230 ms -> Shift, no z (past the 200 ms term; 280 would tap) */
+        ZMK_MOCK_PRESS(0,0,230) ZMK_MOCK_RELEASE(0,0,300)
+        /* 4: / held, tap E -> Shift+E */
+        ZMK_MOCK_PRESS(1,1,50) ZMK_MOCK_PRESS(0,1,20) ZMK_MOCK_RELEASE(0,1,20) ZMK_MOCK_RELEASE(1,1,300)
+        /* 5: Z tapped alone -> z */
+        ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_RELEASE(0,0,300)
+        /* 6: mid-word "eze": e, then Z within 150 ms rolled into E -> e z e (prior-idle) */
+        ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,1,40) ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30)
+        ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_RELEASE(0,1,300)
+    >;
+};

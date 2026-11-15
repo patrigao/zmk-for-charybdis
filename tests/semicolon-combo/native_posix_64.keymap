@@ -1,5 +1,5 @@
-// L+' combo for ; on the right home row, with the real hmr hold-tap.
-// Mock positions: row 0 = L (hmr RALT), ' (hmr RSHIFT); row 1 = N, LSHIFT.
+// L+' combo for ; on the right home row: L is the real hmr (RALT), ' is plain.
+// Mock positions: row 0 = L (hmr RALT), '; row 1 = N, LSHIFT.
 // The real combo uses positions 18 19; the override below maps them to 0 1.
 #include <dt-bindings/zmk/keys.h>
 #include <behaviors.dtsi>
@@ -21,7 +21,7 @@
 
     keymap {
         compatible = "zmk,keymap";
-        l0 { bindings = <&hmr RALT L &hmr RSHIFT SQT &kp N &kp LSHIFT>; };
+        l0 { bindings = <&hmr RALT L &kp SQT &kp N &kp LSHIFT>; };
     };
 };
 
