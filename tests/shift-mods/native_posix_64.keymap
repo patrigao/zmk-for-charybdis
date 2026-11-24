@@ -1,5 +1,6 @@
 // Shift on Z and / with the real sft hold-tap: Shift with any other key,
-// the key's own character only when it is pressed and released alone.
+// the key's own character only on a quick lone tap; a lone hold stays Shift.
+// Shift goes down at key press (hold-while-undecided), so a tap is Shift, then z.
 // Mock positions: row 0 = Z (sft LSHIFT), E, A, M; row 1 = Space (&lt 1), O, / (sft RSHIFT).
 #include <dt-bindings/zmk/keys.h>
 #include <behaviors.dtsi>
@@ -33,9 +34,9 @@
         ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_RELEASE(1,1,300)
         /* 4: idle, Z held, tap M -> Shift+M */
         ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_PRESS(0,3,30) ZMK_MOCK_RELEASE(0,3,30) ZMK_MOCK_RELEASE(0,0,300)
-        /* 5: Z tapped alone -> z */
+        /* 5: Z tapped alone -> Shift down and up, then z */
         ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_RELEASE(0,0,300)
-        /* 6: Z held alone 400 ms, then released -> z (retro-tap) */
+        /* 6: Z held alone 400 ms, then released -> Shift only, no z */
         ZMK_MOCK_PRESS(0,0,400) ZMK_MOCK_RELEASE(0,0,300)
         /* 7: Z released before O goes down -> z o */
         ZMK_MOCK_PRESS(0,0,40) ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_PRESS(1,1,30) ZMK_MOCK_RELEASE(1,1,300)
@@ -45,9 +46,9 @@
         /* 9: a, then / held as O (same hand) goes down -> a, Shift+O */
         ZMK_MOCK_PRESS(0,2,30) ZMK_MOCK_RELEASE(0,2,60) ZMK_MOCK_PRESS(1,2,40) ZMK_MOCK_PRESS(1,1,20)
         ZMK_MOCK_RELEASE(1,2,20) ZMK_MOCK_RELEASE(1,1,300)
-        /* 10: / tapped alone -> / */
+        /* 10: / tapped alone -> Shift down and up, then / */
         ZMK_MOCK_PRESS(1,2,50) ZMK_MOCK_RELEASE(1,2,300)
-        /* 11: / held alone 400 ms, then released -> / (retro-tap) */
+        /* 11: / held alone 400 ms, then released -> Shift only, no / */
         ZMK_MOCK_PRESS(1,2,400) ZMK_MOCK_RELEASE(1,2,300)
     >;
 };

@@ -89,15 +89,16 @@
             hold-trigger-on-release;
         };
 
-        // Shift on Z and / (layer 0), with no timing rules: Shift whenever another
-        // key goes down while Z or / is held, from either hand. The key's own
-        // character types only when it is pressed and released with no other key
-        // in between, however long it was held (retro-tap). The 200 ms term only
-        // decides when Shift goes down during a lone hold, so Shift+scroll works;
-        // scrolling is not a key press, so releasing the key after it still types
-        // its character.
-        // ponytail: any overlap gives Shift, so z or / rolled into the next key
-        // (size, amazon, /giphy) capitalizes that key.
+        // Shift on Z and / (layer 0): Shift goes down the moment Z or / is pressed
+        // (hold-while-undecided), so Shift+click and Shift+scroll need no wait.
+        // Another key pressed while Z or / is held gets Shift, from either hand,
+        // with no timing rule. The key's own character types only on a quick tap:
+        // released alone within 200 ms, Shift is released and z or / is typed.
+        // Held alone past 200 ms it stays Shift and types nothing on release.
+        // ponytail: a tap sends a lone Shift press before the letter, and a
+        // Shift+click shorter than 200 ms still types z or / on release (the
+        // board cannot see mouse clicks). Any overlap gives Shift, so z or /
+        // rolled into the next key (size, amazon, /giphy) capitalizes that key.
         sft: shift_mod {
             compatible = "zmk,behavior-hold-tap";
             display-name = "Shift Mod (hold-preferred)";
@@ -105,7 +106,7 @@
             bindings = <&kp>, <&kp>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
-            retro-tap;
+            hold-while-undecided;
         };
 
         // Home row mods on L2, hold-preferred: the mod engages as soon as
