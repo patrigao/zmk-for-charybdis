@@ -67,5 +67,7 @@
         ZMK_MOCK_PRESS(0,0,80) ZMK_MOCK_PRESS(0,1,40) ZMK_MOCK_RELEASE(0,0,5) ZMK_MOCK_RELEASE(0,1,200)
         /* 11: layer 0, typing "we" with E 60 ms after W -> w e, in order, no combo */
         ZMK_MOCK_PRESS(0,1,60) ZMK_MOCK_PRESS(0,2,30) ZMK_MOCK_RELEASE(0,1,30) ZMK_MOCK_RELEASE(0,2,200)
+        /* 12: Del held alone 300 ms, then released -> Delete (retro-tap) */
+        DEL_DOWN DEL_UP
     >;
 };

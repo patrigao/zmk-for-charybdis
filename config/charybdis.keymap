@@ -89,12 +89,15 @@
             hold-trigger-on-release;
         };
 
-        // Shift on Z and / (layer 0), hold-preferred: Shift engages as soon as the
-        // next key goes down, on either hand, so Shift stacks with other mods in
-        // any order. A 200 ms tapping term instead of 280, and no
-        // hold-trigger-key-positions: Z and / rarely start a typing roll.
-        // require-prior-idle-ms still makes Z or / pressed within 150 ms of the
-        // previous key a plain tap, so mid-word rolls like "ize" stay letters.
+        // Shift on Z and / (layer 0), with no timing rules: Shift whenever another
+        // key goes down while Z or / is held, from either hand. The key's own
+        // character types only when it is pressed and released with no other key
+        // in between, however long it was held (retro-tap). The 200 ms term only
+        // decides when Shift goes down during a lone hold, so Shift+scroll works;
+        // scrolling is not a key press, so releasing the key after it still types
+        // its character.
+        // ponytail: any overlap gives Shift, so z or / rolled into the next key
+        // (size, amazon, /giphy) capitalizes that key.
         sft: shift_mod {
             compatible = "zmk,behavior-hold-tap";
             display-name = "Shift Mod (hold-preferred)";
@@ -102,8 +105,7 @@
             bindings = <&kp>, <&kp>;
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
-            quick-tap-ms = <175>;
-            require-prior-idle-ms = <150>;
+            retro-tap;
         };
 
         // Home row mods on L2, hold-preferred: the mod engages as soon as
@@ -158,6 +160,9 @@
             flavor = "balanced";
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
+            // Del held alone past 200 ms and released with no other key still
+            // sends Delete. Any key (or L2 chord) pressed during the hold cancels it.
+            retro-tap;
         };
 
         // ponytail: releases LCTRL unconditionally. With no Ctrl held it is a no-op,
