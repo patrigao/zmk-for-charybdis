@@ -1,0 +1,40 @@
+// ? and capital Z with another Shift already held, whatever the release order.
+// Real sft_z / sft_slash (mod-morph over sft) and mt_enter (thumb Enter/Shift).
+// Mock positions: row 0 = Enter (mt_enter RSHIFT), / (sft_slash); row 1 = Z (sft_z), A.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+#include "real/sft.dtsi"
+#include "real/mt_enter.dtsi"
+#include "real/sft_z.dtsi"
+#include "real/sft_slash.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&mt_enter RSHIFT ENTER &sft_slash &sft_z &kp A>; };
+    };
+};
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: thumb Shift down, / down, thumb up first, / up -> ? */
+        ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_RELEASE(0,1,300)
+        /* 2: thumb Shift down, / down, / up first, thumb up -> ? */
+        ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,1,20) ZMK_MOCK_RELEASE(0,0,300)
+        /* 3: thumb Shift down, Z down, thumb up first, Z up -> Z */
+        ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(1,0,30) ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_RELEASE(1,0,300)
+        /* 4: Z held as Shift, / down, Z up first, / up -> ? */
+        ZMK_MOCK_PRESS(1,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(1,0,20) ZMK_MOCK_RELEASE(0,1,300)
+        /* 5: / tapped alone -> / */
+        ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_RELEASE(0,1,300)
+        /* 6: / held, tap A -> Shift+A */
+        ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_PRESS(1,1,30) ZMK_MOCK_RELEASE(1,1,30) ZMK_MOCK_RELEASE(0,1,300)
+        /* 7: Z tapped alone -> z */
+        ZMK_MOCK_PRESS(1,0,50) ZMK_MOCK_RELEASE(1,0,300)
+    >;
+};
