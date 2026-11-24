@@ -109,6 +109,22 @@
             hold-while-undecided;
         };
 
+        // Right thumb Enter/Shift (layer 0): the stock &mt settings plus retro-tap.
+        // Enter held alone past 200 ms and released with no other key still sends
+        // Enter. Any key pressed during the hold gives Shift and cancels the Enter.
+        // ponytail: with retro-tap, ZMK presses Shift only when another key goes
+        // down, never on the timer, so Shift+click and Shift+scroll need Z or /.
+        // Clicking during the hold, then releasing, sends Enter.
+        mt_enter: mod_tap_retro_enter {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Mod-Tap (retro-tap)";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            retro-tap;
+        };
+
         // Home row mods on L2, hold-preferred: the mod engages as soon as
         // the next key goes down, so GUI+number fires right away.
         // No hold-trigger-key-positions: hold-preferred decides on that key-down,
@@ -295,7 +311,7 @@
 &kp Q           &kp W         &kp E           &kp R           &kp T    &kp Y        &kp U           &kp I           &kp O          &kp P
 &kp A           &hml LALT S   &hml LCTRL D    &hml LGUI F     &kp G    &kp H        &hmr RGUI J     &hmr RCTRL K    &hmr RALT L    &kp SQT
 &sft LSHIFT Z   &kp X         &kp C           &kp V           &kp B    &kp N        &kp M           &kp COMMA       &kp DOT        &sft RSHIFT SLASH
-                                              &lt_ctrl 2 DEL  &mt LGUI BSPC     &lt 1 SPACE  &mt RSHIFT ENTER
+                                              &lt_ctrl 2 DEL  &mt LGUI BSPC     &lt 1 SPACE  &mt_enter RSHIFT ENTER
             >;
 
             sensor-bindings = <&scroll_vertical_encoder>;

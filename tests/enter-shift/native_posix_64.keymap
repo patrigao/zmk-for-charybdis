@@ -1,0 +1,30 @@
+// Right thumb Enter/Shift with the real mt_enter hold-tap (retro-tap).
+// Mock positions: row 0 = Enter (mt_enter RSHIFT), A; row 1 = O, X.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+#include "real/mt_enter.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&mt_enter RSHIFT ENTER &kp A &kp O &kp X>; };
+    };
+};
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: Enter tapped alone -> Enter */
+        ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_RELEASE(0,0,300)
+        /* 2: Enter held, tap O -> Shift+O, no Enter */
+        ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_PRESS(1,0,30) ZMK_MOCK_RELEASE(1,0,30) ZMK_MOCK_RELEASE(0,0,300)
+        /* 3: Enter held alone 400 ms, then released -> Enter (retro-tap) */
+        ZMK_MOCK_PRESS(0,0,400) ZMK_MOCK_RELEASE(0,0,300)
+        /* 4: Enter held 400 ms, then tap A, then release -> Shift+A, no Enter */
+        ZMK_MOCK_PRESS(0,0,400) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,1,30) ZMK_MOCK_RELEASE(0,0,300)
+    >;
+};
