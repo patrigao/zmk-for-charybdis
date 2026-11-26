@@ -347,7 +347,7 @@
             bindings = <
 &kp F1   &kp F2   &kp F3  &kp F4  &kp F5     &trans     &kp C_BRI_DN  &kp C_BRI_UP  &trans      &kp GRAVE
 &kp F6          &hmnav LALT F7  &hmnav LCTRL F8  &hmnav LGUI F9  &kp F10    &kp LEFT   &kp DOWN  &kp UP  &kp RIGHT  &trans
-&hmnav LSHIFT F11  &kp F12  &trans  &trans  &trans     &kp C_PREV &kp K_VOL_DN  &kp K_VOL_UP  &kp C_NEXT  &hmnav RSHIFT K_MUTE
+&hmnav LSHIFT F11  &kp F12  &trans  &trans  &trans     &kp C_PREV &kp K_VOL_DN  &kp K_VOL_UP  &kp C_NEXT  &hmnav RSHIFT BSLH
                           &trans  &trans     &trans     &kp C_PP
             >;
         };

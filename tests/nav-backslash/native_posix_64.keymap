@@ -1,0 +1,34 @@
+// L1 backslash / Shift (the / position) with the real hmnav hold-tap.
+// | must come out whichever key is released first: ZMK holds back the F11
+// Shift release while the \ hold-tap is undecided.
+// Mock positions: row 0 = F11 (hmnav LSHIFT, L1 Z position), \ (hmnav RSHIFT BSLH); row 1 = A, X.
+#include <dt-bindings/zmk/keys.h>
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/kscan_mock.h>
+
+/ {
+    behaviors {
+#include "real/hmnav.dtsi"
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        l0 { bindings = <&hmnav LSHIFT F11 &hmnav RSHIFT BSLH &kp A &kp X>; };
+    };
+};
+
+&kscan {
+    columns = <2>;
+    events = <
+        /* 1: \ tapped alone -> \ */
+        ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_RELEASE(0,1,300)
+        /* 2: \ held, tap A -> Shift+A */
+        ZMK_MOCK_PRESS(0,1,50) ZMK_MOCK_PRESS(1,0,30) ZMK_MOCK_RELEASE(1,0,30) ZMK_MOCK_RELEASE(0,1,300)
+        /* 3: F11 held as Shift, \ down, F11 up first, \ up -> | */
+        ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,0,20) ZMK_MOCK_RELEASE(0,1,300)
+        /* 4: F11 held as Shift, \ down, \ up first, F11 up -> | */
+        ZMK_MOCK_PRESS(0,0,30) ZMK_MOCK_PRESS(0,1,30) ZMK_MOCK_RELEASE(0,1,20) ZMK_MOCK_RELEASE(0,0,300)
+        /* 5: F11 tapped alone -> F11 */
+        ZMK_MOCK_PRESS(0,0,50) ZMK_MOCK_RELEASE(0,0,300)
+    >;
+};
